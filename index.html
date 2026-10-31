@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gears of War Databases</title>
+<meta name="description" content="Fan-made databases for every Gears of War game: characters, weapons, maps, modes
+  and more, one site per game.">
+<style>
+  :root {
+    --bg: #121216; --panel: #1b1b21; --panel-2: #23232b; --line: #2e2e38; --text: #ececf1; --muted: #9999aa;
+    --accent: #d4a017; --live: #3fbf6f; --plan: #7d7d8f; --radius: 10px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  header { padding: 64px 0 32px; border-bottom: 2px solid var(--accent);
+    background: linear-gradient(160deg, rgba(212, 160, 23, 0.14), transparent 55%); }
+  h1 { margin: 0; font-size: clamp(30px, 6vw, 48px); letter-spacing: 0.02em; text-transform: uppercase; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .lead { color: var(--muted); max-width: 680px; font-size: 17px; margin: 14px 0 0; }
+  section { padding: 36px 0 4px; }
+  h2 { font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+  .game {
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px;
+    display: flex; flex-direction: column; gap: 8px; position: relative;
+  }
+  .game.live { border-color: color-mix(in srgb, var(--live) 45%, var(--line)); }
+  .game .num { position: absolute; top: 14px; right: 16px; color: var(--line); font-weight: 800; font-size: 28px; }
+  .game h3 { margin: 0; font-size: 18px; padding-right: 36px; }
+  .game .date { color: var(--muted); font-size: 14px; }
+  .chip { align-self: flex-start; font-size: 12px; padding: 2px 9px; border-radius: 999px; border: 1px solid; }
+  .chip.live { color: var(--live); }
+  .chip.plan { color: var(--plan); }
+  .repo { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; color: var(--muted); }
+  .links { margin-top: auto; padding-top: 6px; display: flex; gap: 12px; flex-wrap: wrap; font-size: 14px; }
+  .tpl { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
+  .tpl p { margin: 6px 0 0; color: var(--muted); font-size: 15px; }
+  footer { margin-top: 48px; padding: 28px 0 40px; border-top: 1px solid var(--line); color: var(--muted);
+    font-size: 13px; line-height: 1.6; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Gears of War <em>Databases</em></h1>
+    <p class="lead">Fan-made reference sites for the Gears of War games, one per game: characters, weapons, maps,
+      modes and everything else each game has, sorted and searchable.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section>
+    <h2>The games</h2>
+    <div class="grid" id="games"></div>
+  </section>
+
+  <section>
+    <h2>Make one</h2>
+    <div class="grid">
+      <div class="tpl">
+        <b><a href="https://github.com/GearsOfWarDatabases/GoWDB-Template">GoWDB-Template</a></b>
+        <p>The site behind GoW5DB without the Gears 5 content: set the game's name, pick its sections, fill in the
+          data files, and GitHub Pages hosts it.</p>
+      </div>
+      <div class="tpl">
+        <b><a href="https://github.com/GearsOfWarDatabases/GoWDB-Reference-Template">GoWDB-Reference-Template</a></b>
+        <p>For the screenshots a database is built from: imports them without metadata, kept as the site's
+          <code>ref/</code> submodule.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    Made by <a href="https://github.com/TheSCREWEDSoftware">Ryan Turner (TheSCREWEDSoftware)</a> &middot;
+    <a href="https://github.com/GearsOfWarDatabases">GearsOfWarDatabases on GitHub</a><br>
+    Fan projects, not affiliated with or endorsed by Microsoft, Xbox Game Studios, The Coalition, Epic Games, People
+    Can Fly or Splash Damage. Gears of War and its names, images and other content belong to their owners.<br>
+    Made with the help of <a href="https://claude.ai">Claude</a>, Anthropic's AI assistant.
+  </div>
+</footer>
+
+<script>
+  // The list of games, in release order. A game gets its links once its repository exists: set `live: true` when
+  // its site is up, `ref: true` when it has a Reference repository.
+  var ORG = 'https://github.com/GearsOfWarDatabases/';
+  var SITE = 'https://gearsofwardatabases.github.io/';
+  var GAMES = [
+    { name: 'Gears of War', date: '7 November 2006', repo: 'GoW1DB' },
+    { name: 'Gears of War 2', date: '7 November 2008', repo: 'GoW2DB' },
+    { name: 'Gears of War 3', date: '20 September 2011', repo: 'GoW3DB' },
+    { name: 'Gears of War: Judgment', date: '19 March 2013', repo: 'GoWJudgmentDB' },
+    { name: 'Gears of War 4', date: '11 October 2016', repo: 'GoW4DB' },
+    { name: 'Gears 5', date: '10 September 2019', repo: 'GoW5DB', live: true, ref: true },
+    { name: 'Gears Tactics', date: '28 April 2020', repo: 'GoWTacticsDB' },
+    { name: 'Gears of War: E\u2011Day', date: '6 October 2026', repo: 'GoWEDayDB' }
+  ];
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  document.getElementById('games').innerHTML = GAMES.map(function (g, i) {
+    var links = g.live ? '<a href="' + SITE + g.repo + '/">Open the site &rarr;</a>' +
+      '<a href="' + ORG + g.repo + '">Repository</a>' +
+      (g.ref ? '<a href="' + ORG + g.repo + '-Reference">Reference</a>' : '') : '';
+    return '<article class="game' + (g.live ? ' live' : '') + '">' +
+      '<span class="num">' + (i + 1) + '</span>' +
+      '<h3>' + esc(g.name) + '</h3><div class="date">' + esc(g.date) + '</div>' +
+      '<span class="chip ' + (g.live ? 'live">Live' : 'plan">Planned') + '</span>' +
+      '<div class="repo">' + esc(g.repo) + '</div>' +
+      (links ? '<div class="links">' + links + '</div>' : '') + '</article>';
+  }).join('');
+</script>
+</body>
+</html>
